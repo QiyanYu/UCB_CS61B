@@ -52,4 +52,14 @@ public class ArrayDequeTest {
         assertEquals(2, deque.size());
         deque.printDeque();
     }
+
+    @Test
+    public void test2() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        deque.addFirst(0);
+        deque.printDeque();
+        int t = deque.removeLast();
+        System.out.println("this is removed " + t);
+        deque.printDeque();
+    }
 }

@@ -90,7 +90,7 @@ public class ArrayDeque<T> {
         }
         nextLast = minusOne(nextLast);
         size--;
-        T ret = items[nextFirst];
+        T ret = items[nextLast];
         if (size < items.length / 4) {
             resize(items.length / 2);
         }
@@ -98,6 +98,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+
         int i = addOne(index + nextFirst, items.length);
         return items[i];
     }
