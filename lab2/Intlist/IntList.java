@@ -11,11 +11,11 @@ public class IntList {
     /**
      * First element of list.
      */
-    public int first;
+    private int first;
     /**
      * Remaining elements of list.
      */
-    public IntList rest;
+    private IntList rest;
 
     /**
      * A List with first FIRST0 and rest REST0.
@@ -110,39 +110,53 @@ public class IntList {
         /**
          * This is the iterative version;
 
-        IntList ret = null;
-        IntList p;
-        if (A != null) {
-            ret = new IntList(A.first, null);
-            p = ret;
-            A = A.rest;
-            while (A != null) {
-                p.rest = new IntList(A.first, null);
-                p = p.rest;
-                A = A.rest;
-            }
+         IntList ret = null;
+         IntList p;
+         if (A != null) {
+         ret = new IntList(A.first, null);
+         p = ret;
+         A = A.rest;
+         while (A != null) {
+         p.rest = new IntList(A.first, null);
+         p = p.rest;
+         A = A.rest;
+         }
 
-            while (B != null) {
-                p.rest = new IntList(B.first, null);
-                p = p.rest;
-                B = B.rest;
-            }
-        } else {
-            if (B != null) {
-                ret = new IntList(B.first, null);
-                p = ret;
-                B = B.rest;
-                while (B != null) {
-                    p.rest = new IntList(B.first, null);
-                    p = p.rest;
-                    B = B.rest;
-                }
-            }
+         while (B != null) {
+         p.rest = new IntList(B.first, null);
+         p = p.rest;
+         B = B.rest;
+         }
+         } else {
+         if (B != null) {
+         ret = new IntList(B.first, null);
+         p = ret;
+         B = B.rest;
+         while (B != null) {
+         p.rest = new IntList(B.first, null);
+         p = p.rest;
+         B = B.rest;
+         }
+         }
 
+         }
+
+         return ret;
+         */
+    }
+
+    public static IntList reverse(IntList A) {
+        IntList frontOfReversed = null;
+        IntList nextIntListToAdd = A;
+
+        while (nextIntListToAdd != null) {
+            IntList remainderOfOriginal = nextIntListToAdd.rest;
+            nextIntListToAdd.rest = frontOfReversed;
+            frontOfReversed = nextIntListToAdd;
+            nextIntListToAdd = remainderOfOriginal;
         }
 
-        return ret;
-         */
+        return frontOfReversed;
     }
 
 
@@ -246,8 +260,7 @@ public class IntList {
 
     @Override
     /** Outputs the IntList as a String. You are not expected to read
-     * or understand this method. */
-    public String toString() {
+     * or understand this method. */ public String toString() {
         Formatter out = new Formatter();
         String sep;
         sep = "(";
