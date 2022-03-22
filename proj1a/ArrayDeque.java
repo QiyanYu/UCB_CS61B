@@ -72,28 +72,29 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size <= items.length / 4 && items.length >= 16) {
+            resize(items.length / 2);
+        }
         if (size <= 0) {
             return null;
         }
         nextFirst = addOne(nextFirst, items.length);
         size--;
         T ret = items[nextFirst];
-        if (size < items.length / 4) {
-            resize(items.length / 2);
-        }
+
         return ret;
     }
 
     public T removeLast() {
+        if (size <= items.length / 4 && items.length >= 16) {
+            resize(items.length / 2);
+        }
         if (size <= 0) {
             return null;
         }
         nextLast = minusOne(nextLast);
         size--;
         T ret = items[nextLast];
-        if (size < items.length / 4) {
-            resize(items.length / 2);
-        }
         return ret;
     }
 

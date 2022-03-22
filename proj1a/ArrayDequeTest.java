@@ -40,16 +40,20 @@ public class ArrayDequeTest {
     public void testResizing() {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 32; i++) {
             deque.addLast(i);
-        }
-        for (int i = -16; i < 0; i++) {
-            deque.addFirst(i);
         }
         for (int i = 0; i < 30; i++) {
             deque.removeFirst();
         }
-        assertEquals(2, deque.size());
+        deque.printDeque();
+        for (int i = -32; i < 0; i++) {
+            deque.addLast(i);
+        }
+        for (int i = 0; i < 30; i++) {
+            deque.removeFirst();
+        }
+        assertEquals(4, deque.size());
         deque.printDeque();
     }
 
