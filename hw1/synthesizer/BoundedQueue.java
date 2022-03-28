@@ -13,7 +13,7 @@ public interface BoundedQueue<T> {
         return fillCount() == capacity();
     }
 
-    void enqueue(int x);
+    void enqueue(T x);
 
     T dequeue();
 
