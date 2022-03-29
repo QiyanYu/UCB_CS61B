@@ -69,6 +69,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public T peek() {
+        if (this.isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
         return this.rb[this.first];
     }
 
