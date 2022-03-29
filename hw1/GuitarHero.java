@@ -3,11 +3,11 @@ import synthesizer.GuitarString;
 public class GuitarHero {
     public static void main(String[] args) {
         String keyboard = "q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' ";
-        final int STRING_LEN = 37;
-        GuitarString[] strings = new GuitarString[STRING_LEN];
+        final int stringLen = 37;
+        GuitarString[] strings = new GuitarString[stringLen];
         double frequency;
 
-        for (int i = 0; i < STRING_LEN; i++) {
+        for (int i = 0; i < stringLen; i++) {
             frequency = 440 * Math.pow(2, ((double) i - 24) / 12);
             strings[i] = new GuitarString(frequency);
         }
