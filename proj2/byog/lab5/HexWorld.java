@@ -5,10 +5,6 @@ import byog.TileEngine.TETile;
 import java.util.Random;
 
 public class HexWorld {
-    public void addHexagon() {
-
-    }
-
     public static int hexRowWidth(int s, int i) {
         int effectiveI = i;
         if (i >= s) {
