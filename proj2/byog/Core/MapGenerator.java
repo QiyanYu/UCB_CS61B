@@ -5,6 +5,11 @@ import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
 public class MapGenerator {
+    public static WorldState generate(MapGenerationParameters mgp) {
+        return new WorldState(mgp.width, mgp.height);
+    }
+
+
     /**
      * For drawing rooms and hallways (when height or width equals to 3)
      *
@@ -29,6 +34,11 @@ public class MapGenerator {
         }
     }
 
+    /**
+     * Initialize the world 2D array
+     *
+     * @param world 2D array of TETile
+     */
     private static void initialWorld(TETile[][] world) {
         int width = world[0].length;
         int height = world.length;
@@ -40,13 +50,4 @@ public class MapGenerator {
     }
 
 
-    public static void main(String[] args) {
-        TERenderer teRenderer = new TERenderer();
-        teRenderer.initialize(20, 20);
-        TETile[][] world = new TETile[20][20];
-        initialWorld(world);
-        Position p = new Position(0, 0);
-        addShapes(world, p, 3, 10);
-        teRenderer.renderFrame(world);
-    }
 }
