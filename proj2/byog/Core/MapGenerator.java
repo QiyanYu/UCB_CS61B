@@ -6,7 +6,10 @@ import byog.TileEngine.Tileset;
 
 public class MapGenerator {
     public static WorldState generate(MapGenerationParameters mgp) {
-        return new WorldState(mgp.width, mgp.height);
+        WorldState ws = new WorldState(mgp.width, mgp.height);
+        TETile[][] world = ws.terrianGird();
+        //todo
+        return ws;
     }
 
 
@@ -30,21 +33,6 @@ public class MapGenerator {
                 } else {
                     world[xCoord][yCoord] = Tileset.FLOOR;
                 }
-            }
-        }
-    }
-
-    /**
-     * Initialize the world 2D array
-     *
-     * @param world 2D array of TETile
-     */
-    private static void initialWorld(TETile[][] world) {
-        int width = world[0].length;
-        int height = world.length;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                world[i][j] = Tileset.NOTHING;
             }
         }
     }
