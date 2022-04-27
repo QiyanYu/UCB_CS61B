@@ -1,9 +1,13 @@
 package hw2;
 
+import edu.princeton.cs.introcs.StdRandom;
+import edu.princeton.cs.introcs.StdStats;
+
 public class PercolationStats {
     private int N;
     private int T;
     private PercolationFactory pf;
+    private int[] results;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
@@ -12,21 +16,38 @@ public class PercolationStats {
         this.N = N;
         this.T = T;
         this.pf = pf;
+        results = new int[T];
+        calculate();
+    }
+
+    private void calculate() {
+        for (int i = 0; i < T; i++) {
+            Percolation percolation = pf.make(N);
+            for (int j = 0; j < N * N; j++) {
+                int row = StdRandom.uniform(N);
+                int col = StdRandom.uniform(N);
+                percolation.open(row, col);
+                if (percolation.percolates()) {
+                    results[i] = percolation.numberOfOpenSites();
+                }
+            }
+        }
     }
 
     /**
      * sample mean of percolation threshold
-     * public double mean() {
-     * return -1.0;
-     * }
-     * <p>
-     * /**
+     */
+    public double mean() {
+        return StdStats.mean(results);
+    }
+
+    /**
      * sample standard deviation of percolation threshold
      *
      * @return
      */
     public double stddev() {
-        return -1.0;
+        return StdStats.stddev(results);
     }
 
     /**
@@ -35,7 +56,7 @@ public class PercolationStats {
      * @return
      */
     public double confidenceLow() {
-        return -1.0;
+        return mean() - 1.96 * Math.sqrt(stddev()) / Math.sqrt(T);
     }
 
     /**
@@ -44,6 +65,6 @@ public class PercolationStats {
      * @return
      */
     public double confidenceHigh() {
-        return -1.0;
+        return mean() + 1.96 * Math.sqrt(stddev()) / Math.sqrt(T);
     }
 }
