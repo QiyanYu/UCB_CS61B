@@ -29,6 +29,7 @@ public class PercolationStats {
                 percolation.open(row, col);
                 if (percolation.percolates()) {
                     results[i] = percolation.numberOfOpenSites();
+                    break;
                 }
             }
         }
