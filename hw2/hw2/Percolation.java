@@ -12,6 +12,9 @@ public class Percolation {
     private int openedNum;
 
     public Percolation(int N) {
+        if (N <= 0) {
+            throw new java.lang.IllegalArgumentException("Invalid N!");
+        }
         this.N = N;
         TOP = N * N;
         BOTTOM = TOP + 1;
@@ -43,7 +46,8 @@ public class Percolation {
         if (row == 0) {
             weightedQuickUnionUF.union(TOP, xyTO1D(row, col));
             wquufForFull.union(TOP, xyTO1D(row, col));
-        } else if (row == N - 1) {
+        }
+        if (row == N - 1) {
             weightedQuickUnionUF.union(BOTTOM, xyTO1D(row, col));
         }
         // check adjacent spaces whether is opened
