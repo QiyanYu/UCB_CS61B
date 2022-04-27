@@ -7,7 +7,7 @@ public class PercolationStats {
     private int N;
     private int T;
     private PercolationFactory pf;
-    private int[] results;
+    private double[] results;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
@@ -16,7 +16,7 @@ public class PercolationStats {
         this.N = N;
         this.T = T;
         this.pf = pf;
-        results = new int[T];
+        results = new double[T];
         calculate();
     }
 
@@ -28,7 +28,7 @@ public class PercolationStats {
                 int col = StdRandom.uniform(N);
                 percolation.open(row, col);
                 if (percolation.percolates()) {
-                    results[i] = percolation.numberOfOpenSites();
+                    results[i] = (double) percolation.numberOfOpenSites() / (N * N);
                     break;
                 }
             }
@@ -67,5 +67,10 @@ public class PercolationStats {
      */
     public double confidenceHigh() {
         return mean() + 1.96 * Math.sqrt(stddev()) / Math.sqrt(T);
+    }
+
+    public static void main(String[] args) {
+        PercolationStats ps = new PercolationStats(20, 10, new PercolationFactory());
+        System.out.println(ps.mean());
     }
 }
