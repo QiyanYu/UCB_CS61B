@@ -7,6 +7,7 @@ public class Percolation {
     private final int TOP;
     private final int BOTTOM;
     private WeightedQuickUnionUF weightedQuickUnionUF;
+    private WeightedQuickUnionUF wquufForFull;
     private boolean[][] openedRecord;
     private int openedNum;
 
@@ -14,12 +15,13 @@ public class Percolation {
         this.N = N;
         TOP = N * N;
         BOTTOM = TOP + 1;
+        // includes TOP and BOTTOM
         weightedQuickUnionUF = new WeightedQuickUnionUF(N * N + 2);
+        // only includes TOP for checking isFull
+        wquufForFull = new WeightedQuickUnionUF(N * N + 1);
         openedRecord = new boolean[N][N];
         openedNum = 0;
         setDefaultOpenedRecord();
-        connectWholeRow(TOP, 0);
-        connectWholeRow(BOTTOM, N - 1);
     }
 
     /**
@@ -37,6 +39,13 @@ public class Percolation {
         }
         openedRecord[row][col] = true;
         openedNum++;
+        // if it is the top row or bottom row site, connect it with TOP or BOTTOM
+        if (row == 0) {
+            weightedQuickUnionUF.union(TOP, xyTO1D(row, col));
+            wquufForFull.union(TOP, xyTO1D(row, col));
+        } else if (row == N - 1) {
+            weightedQuickUnionUF.union(BOTTOM, xyTO1D(row, col));
+        }
         // check adjacent spaces whether is opened
         int[][] directions = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
         for (int[] direction : directions) {
@@ -44,6 +53,7 @@ public class Percolation {
             int newC = col + direction[1];
             if (isIndicesValid(newR, newC) && openedRecord[newR][newC]) {
                 weightedQuickUnionUF.union(xyTO1D(row, col), xyTO1D(newR, newC));
+                wquufForFull.union(xyTO1D(row, col), xyTO1D(newR, newC));
             }
         }
     }
@@ -64,12 +74,13 @@ public class Percolation {
 
     /**
      * is the site (row, col) full?
+     * Using wquufForFull to avoid back wash
      */
     public boolean isFull(int row, int col) {
         if (!isIndicesValid(row, col)) {
             throw new java.lang.IndexOutOfBoundsException("Invalid row or col!");
         }
-        return weightedQuickUnionUF.connected(TOP, xyTO1D(row, col)) && isOpen(row, col);
+        return wquufForFull.connected(TOP, xyTO1D(row, col));
     }
 
     /**
@@ -96,12 +107,6 @@ public class Percolation {
             for (int j = 0; j < N; j++) {
                 openedRecord[i][j] = false;
             }
-        }
-    }
-
-    private void connectWholeRow(int x, int row) {
-        for (int i = 0; i < N; i++) {
-            weightedQuickUnionUF.union(x, xyTO1D(row, i));
         }
     }
 
