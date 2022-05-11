@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- *  A hash table-backed Map implementation. Provides amortized constant time
- *  access to elements via get(), remove(), and put() in the best case.
+ * A hash table-backed Map implementation. Provides amortized constant time
+ * access to elements via get(), remove(), and put() in the best case.
  *
- *  @author Your name here
+ * @author Your name here
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
@@ -35,9 +35,10 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
     }
 
-    /** Computes the hash function of the given key. Consists of
-     *  computing the hashcode, followed by modding by the number of buckets.
-     *  To handle negative numbers properly, uses floorMod instead of %.
+    /**
+     * Computes the hash function of the given key. Consists of
+     * computing the hashcode, followed by modding by the number of buckets.
+     * To handle negative numbers properly, uses floorMod instead of %.
      */
     private int hash(K key) {
         if (key == null) {
@@ -48,24 +49,49 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return Math.floorMod(key.hashCode(), numBuckets);
     }
 
+    /**
+     * resize the hash table to have the given number of chains,
+     */
+    private void resize(int chains) {
+        ArrayMap<K, V>[] previousTable = buckets;
+        int previousSize = size;
+        buckets = new ArrayMap[chains];
+        clear();
+        for (int i = 0; i < previousSize; i++) {
+            for (K k : previousTable[i]) {
+                int hash = hash(k);
+                V v = previousTable[i].get(k);
+                buckets[hash].put(k, v);
+            }
+        }
+    }
+
     /* Returns the value to which the specified key is mapped, or null if this
      * map contains no mapping for the key.
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        int hash = hash(key);
+        ArrayMap<K, V> map = buckets[hash];
+        return map.get(key);
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        int hash = hash(key);
+        ArrayMap<K, V> map = buckets[hash];
+        map.put(key, value);
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        int ret = 0;
+        for (ArrayMap<K, V> map : buckets) {
+            ret += map.size();
+        }
+        return ret;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
